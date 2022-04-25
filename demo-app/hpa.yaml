@@ -1,0 +1,27 @@
+kind: HorizontalPodAutoscaler
+apiVersion: autoscaling/v2beta2
+metadata:
+  name: nginx-ingress-ingress-nginx-controller-hpa
+  namespace: ingress-nginx
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: nginx-ingress-ingress-nginx-controller
+  minReplicas: 1
+  maxReplicas: 100
+  metrics:
+  # use a "Pods" metric, which takes the average of the
+  # given metric across all    controlled by the autoscaling target
+  - type: Pods
+    pods:
+      metric:
+        # use the metric that you used above: pods/http_requests
+        name: nginx_ingress_controller_nginx_process_requests_total
+      target:
+        # target 500 milli-requests per second,
+        # which is 1 request every two seconds
+        type: AverageValue
+        averageValue: 2500m
+
+
