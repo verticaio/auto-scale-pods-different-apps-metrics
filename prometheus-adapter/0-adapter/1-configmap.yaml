@@ -17,4 +17,4 @@ data:
       name:
         matches: ""
         as: "nginx_ingress_controller_nginx_process_requests_total" 
-      metricsQuery: round(sum(  (<<.Series>>{<<.LabelMatchers>>}[1m])) by (<<.GroupBy>>), 0.001)
+      metricsQuery: round(sum(rate(<<.Series>>{<<.LabelMatchers>>}[1m])) by (<<.GroupBy>>), 0.001)
